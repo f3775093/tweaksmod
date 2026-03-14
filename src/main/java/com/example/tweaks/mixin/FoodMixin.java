@@ -3,7 +3,7 @@ package com.example.tweaks.mixin;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.component.type.FoodComponent;
+import net.minecraft.util.UseAction;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -16,10 +16,9 @@ public class FoodMixin {
     @Inject(method = "getMaxUseTime", at = @At("HEAD"), cancellable = true)
     private void instantFood(ItemStack stack, LivingEntity user, CallbackInfoReturnable<Integer> cir) {
 
-        Item item = stack.getItem();
-        FoodComponent food = item.getFoodComponent();
+        UseAction action = stack.getUseAction();
 
-        if (food != null) {
+        if (action == UseAction.EAT) {
             cir.setReturnValue(1);
         }
 

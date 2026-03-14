@@ -5,12 +5,20 @@
   "name": "Tweaks Mod",
   "description": "Instant Eat and Instant Bow with config.",
   "authors": ["Allan"],
+
   "entrypoints": {
-    "main": ["com.example.tweaks.TweaksMod"]
+    "main": [
+      "com.example.tweaks.TweaksMod"
+    ],
+    "modmenu": [
+      "com.example.tweaks.config.ModMenuIntegration"
+    ]
   },
+
   "mixins": [
     "tweaksmod.mixins.json"
   ],
+
   "depends": {
     "fabricloader": ">=0.16.7",
     "fabric-api": "*",

@@ -3,8 +3,7 @@
   "package": "com.example.tweaks.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "ItemMixin",
-    "BowMixin"
+    "FoodMixin"
   ],
   "injectors": {
     "defaultRequire": 1

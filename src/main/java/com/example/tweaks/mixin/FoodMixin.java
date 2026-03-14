@@ -18,7 +18,7 @@ public class FoodMixin {
 
         UseAction action = stack.getUseAction();
 
-        if (action == UseAction.EAT) {
+        if (action == UseAction.EAT && ModConfig.instantEat) {
             cir.setReturnValue(1);
         }
 

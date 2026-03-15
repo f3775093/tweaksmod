@@ -1,47 +1,54 @@
-package com.example.tweaksmod.mixin;
+package com.example.tweaks.mixin;
 
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArrowItem;
-import net.minecraft.world.item.BowItem;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.level.Level;
+import com.example.tweaks.config.ModConfig;
+
+import net.minecraft.class_1309;       // LivingEntity
+import net.minecraft.class_1799;       // ItemStack
+import net.minecraft.class_2248;       // BowItem
+import net.minecraft.class_1792;       // Item
+import net.minecraft.class_3764;       // Level
+import net.minecraft.class_2487;       // Player
+import net.minecraft.class_3625;       // InteractionHand
+import net.minecraft.class_1806;       // InteractionResultHolder
+import net.minecraft.class_4005;       // ArrowItem
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(BowItem.class)
+@Mixin(class_2248.class) // BowItem
 public class BowMixin {
 
-    @Inject(method = "use(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/player/Player;)Lnet/minecraft/world/InteractionResultHolder;", 
-            at = @At("HEAD"), cancellable = true)
-    private void instantUse(ItemStack stack, Level world, Player player, CallbackInfoReturnable<InteractionResultHolder<ItemStack>> cir) {
-        ItemStack arrowStack = player.getProjectile(stack);
+    @Inject(method = "method_7904", at = @At("HEAD"), cancellable = true) // use()
+    private void instantBowUse(class_1799 stack, class_3764 world, class_2487 player, CallbackInfoReturnable<class_1806> cir) {
 
-        boolean creative = player.getAbilities().instabuild || arrowStack.isEmpty();
-        if (!arrowStack.isEmpty() || creative) {
-            if (!world.isClientSide) {
-                int charge = BowItem.getPowerForTime(20); // max power
-                BowItem bow = (BowItem) (Object) this;
+        if (!ModConfig.instantBow) return;
 
-                bow.releaseUsing(stack, world, player, charge);
+        // Only run on server side
+        if (!world.field_1687) {
+
+            // get best arrow stack
+            class_1799 arrowStack = player.method_5436(stack);
+
+            boolean creative = player.field_7514.method_5457() || arrowStack.method_7909() == null;
+
+            if (!creative && !(arrowStack.method_7909() instanceof net.minecraft.class_358)) {
+                // Not arrow? pass
+                return;
             }
 
-            // Consume arrow if not creative
+            // Fire full power arrow
+            int power = 20;
+            ((net.minecraft.class_2248)(Object)this).method_7888(stack, world, player, power);
+
+            // consume arrow if not creative
             if (!creative) {
-                arrowStack.shrink(1);
-                if (arrowStack.isEmpty()) {
-                    player.getInventory().removeItem(arrowStack);
-                }
+                arrowStack.method_8091(arrowStack.field_7724 - 1);
             }
-
-            // Animation + hand swinging
-            player.swing(InteractionHand.MAIN_HAND);
-            cir.setReturnValue(InteractionResultHolder.success(stack));
         }
+
+        // simulate success and cancel normal
+        cir.setReturnValue(new net.minecraft.class_1806(net.minecraft.class_1806.class_7948.field_35753, stack));
     }
 }

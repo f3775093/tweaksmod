@@ -5,7 +5,6 @@
   "name": "Tweaks Mod",
   "description": "Instant Eat and Instant Bow with config.",
   "authors": ["Allan"],
-
   "entrypoints": {
     "main": [
       "com.example.tweaks.TweaksMod"
@@ -14,13 +13,11 @@
       "com.example.tweaks.config.ModMenuIntegration"
     ]
   },
-
   "mixins": [
     "tweaksmod.mixins.json"
   ],
-
   "depends": {
-    "fabricloader": ">=0.16.7",
+    "fabricloader": ">=0.18.4",
     "fabric-api": "*",
     "cloth-config2": "*",
     "modmenu": "*"

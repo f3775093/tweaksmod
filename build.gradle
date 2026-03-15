@@ -17,7 +17,8 @@ repositories {
 
 dependencies {
     minecraft "com.mojang:minecraft:1.21.11"
-    mappings "net.fabricmc:yarn:1.21.11+build.8:v2"  // explicitly define mappings
+    // Use a Yarn build that exists
+    mappings "net.fabricmc:yarn:1.21.11+build.7:v2"
     modImplementation "net.fabricmc:fabric-loader:0.15.3"
     modImplementation "net.fabricmc.fabric-api:fabric-api:0.86.0+1.21.11"
 }

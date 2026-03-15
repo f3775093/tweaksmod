@@ -5,6 +5,8 @@ plugins {
 
 group = 'com.example'
 version = '1.0.0'
+archivesBaseName = 'tweaksmod'
+
 sourceCompatibility = JavaVersion.VERSION_21
 targetCompatibility = JavaVersion.VERSION_21
 
@@ -17,19 +19,16 @@ repositories {
 
 dependencies {
     minecraft "com.mojang:minecraft:1.21.11"
-    // Use a Yarn build that exists
-    mappings "net.fabricmc:yarn:1.21.11+build.7:v2"
-    modImplementation "net.fabricmc:fabric-loader:0.15.3"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:0.86.0+1.21.11"
+    mappings "net.fabricmc:yarn:1.21.11+build.1:v2"
+    modImplementation "net.fabricmc:fabric-loader:0.15.2"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:0.88.0+1.21.11"
 }
 
-loom {
-    runs {
-        client {
-            runDir = "run"
-        }
-        server {
-            runDir = "run"
-        }
-    }
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+java {
+    withSourcesJar()
+    withJavadocJar()
 }

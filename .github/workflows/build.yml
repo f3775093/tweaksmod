@@ -42,7 +42,7 @@ jobs:
       run: gradle clean build --no-daemon --stacktrace
 
     - name: Upload Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: TweaksMod-JAR
         path: build/libs/*.jar
